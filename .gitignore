@@ -2,4 +2,5 @@
 .terraform/* 
 .terraform*
 .terraform.*
+terraform.tfstate.back*
 

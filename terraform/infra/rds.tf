@@ -3,7 +3,7 @@ resource "aws_db_instance" "jumiadb" {
   instance_class         = "db.t3.micro"
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "13.2"
+  engine_version         = "13.3"
   username               = "postgres"
   password               = var.db_password
   db_subnet_group_name   = var.db_subnet_name

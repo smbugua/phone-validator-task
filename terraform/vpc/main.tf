@@ -142,7 +142,7 @@ resource "aws_route_table_association" "prod-crta-public-subnet-3"{
 }
 
 #security group 
-resource "aws_security_group" "ssh-allowed" {
+resource "aws_security_group" "main_security_group" {
     vpc_id = "${aws_vpc.prod-vpc.id}"
     
     egress {
@@ -152,12 +152,10 @@ resource "aws_security_group" "ssh-allowed" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
-        from_port = 22
-        to_port = 22
+        from_port = 1337
+        to_port = 1337
         protocol = "tcp"
         // This means, all ip address are allowed to ssh ! 
-        // Do not do it in the production. 
-        // Put your office or home address in it!
         cidr_blocks = ["0.0.0.0/0"]
     }
     //If you do not add this rule, you can not reach the NGIX  

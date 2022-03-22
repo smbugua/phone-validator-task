@@ -19,7 +19,6 @@ module "eks" {
       additional_userdata           = "worker  group 1"
       additional_security_group_ids = [aws_security_group.main_security_group.id]
       asg_desired_capacity          = 2
-      key_name                      = "jumia-simon-key-pair"
     },
     {
       name                          = "worker-group-2"

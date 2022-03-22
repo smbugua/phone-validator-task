@@ -21,85 +21,16 @@ module "vpc" {
      tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
-}
 
- 
-
-
-
-
-#provision subnets
-resource "aws_subnet" "public-subnet-1" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.0.0/24"
-  map_public_ip_on_launch = true
-  availability_zone= "${var.region}a"
-  
-  tags = {
-      Name = "public-subnet-01"
+ public_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
   }
 
-}
-
-
-resource "aws_subnet" "public-subnet-2" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.1.0/24"
-  map_public_ip_on_launch = true
-  availability_zone= "${var.region}b"
-  
-  tags = {
-      Name = "public-subnet-02"
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"             = "1"
   }
-
-}
-
-resource "aws_subnet" "public-subnet-3" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.3.0/24"
-  map_public_ip_on_launch = true
-  availability_zone= "${var.region}c"
-  
-  tags = {
-      Name = "public-subnet-03"
-  }
-
-}
-
-resource "aws_subnet" "private-subnet-1" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.4.0/24"
-  map_public_ip_on_launch = false
-  availability_zone= "${var.region}a"
-  
-  tags = {
-      Name = "private-subnet-01"
-  }
-
-}
-
-resource "aws_subnet" "private-subnet-2" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.5.0/24"
-  map_public_ip_on_launch = false
-  availability_zone= "${var.region}b"
-  
-  tags = {
-      Name = "private-subnet-02"
-  }
-
-}
-
-resource "aws_subnet" "private-subnet-3" {
-  vpc_id = module.vpc.vpc_id
-  cidr_block = "10.10.6.0/24"
-  map_public_ip_on_launch = false
-  availability_zone= "${var.region}c"
-  
-  tags = {
-      Name = "private-subnet-03"
-  }
-
 }
 
 
@@ -128,25 +59,9 @@ resource "aws_route_table" "prod-public-crt" {
     tags = {
         Name = "prod-public-crt"
     }
+
 }
 
-#assouciate my route table with public subnets
-resource "aws_route_table_association" "prod-crta-public-subnet-1"{
-    subnet_id = "${aws_subnet.public-subnet-1.id}"
-    route_table_id = "${aws_route_table.prod-public-crt.id}"
-}
-
-
-resource "aws_route_table_association" "prod-crta-public-subnet-2"{
-    subnet_id = "${aws_subnet.public-subnet-2.id}"
-    route_table_id = "${aws_route_table.prod-public-crt.id}"
-}
-
-
-resource "aws_route_table_association" "prod-crta-public-subnet-3"{
-    subnet_id = "${aws_subnet.public-subnet-2.id}"
-    route_table_id = "${aws_route_table.prod-public-crt.id}"
-}
 
 #security group 
 resource "aws_security_group" "main_security_group" {

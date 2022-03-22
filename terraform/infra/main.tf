@@ -17,6 +17,7 @@ module "vpc" {
     azs = ["${var.region}a","${var.region}b","${var.region}c"]
     public_subnets= ["10.10.0.0/24","10.10.1.0/24","10.10.2.0/24"]
     private_subnets= ["10.10.3.0/24","10.10.4.0/24","10.10.5.0/24"]
+  
 
      tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
@@ -30,6 +31,7 @@ module "vpc" {
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
+     name = "private_subnet"
   }
 }
 
@@ -99,3 +101,12 @@ resource "aws_security_group" "main_security_group" {
     }
 }
 
+#create db subnet group
+resource "aws_db_subnet_group" "jumiadb_subnet" {
+  name       = "jumiadb_subnet"
+  subnet_ids = module.vpc.private_subnets
+
+  tags = {
+    Name = "jumiadb_subnet"
+  }
+}

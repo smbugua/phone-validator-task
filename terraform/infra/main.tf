@@ -36,17 +36,6 @@ module "vpc" {
 }
 
 
-#provision ig
-
-resource "aws_internet_gateway" "prod-igw" {
-    vpc_id = module.vpc.vpc_id
-    tags = {
-        Name = "prod-igw"
-    }
-}
-
-
-
 #provision route table
 resource "aws_route_table" "prod-public-crt" {
     vpc_id = module.vpc.vpc_id

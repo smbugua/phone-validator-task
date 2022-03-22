@@ -19,3 +19,10 @@ variable "db_password" {
   sensitive   = true
   default = "postgres!2022"
 }
+
+variable "db_subnet_name" {
+  description = "RDS subnet group name"
+  type        = string
+  sensitive   = true
+  default = "jumiadb_subnet"
+}

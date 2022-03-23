@@ -31,9 +31,25 @@ output "region" {
   description = "AWS region"
   value       = var.region
 }
+output "rds_hostname" {
+  description = "RDS instance hostname"
+  value       = aws_db_instance.jumiadb.address
+  sensitive   = true
+}
+
+output "rds_port" {
+  description = "RDS instance port"
+  value       = aws_db_instance.jumiadb.port
+  sensitive   = true
+}
+
+output "rds_username" {
+  description = "RDS instance root username"
+  value       = aws_db_instance.jumiadb.username
+  sensitive   = true
+}
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = local.cluster_name
 }
-

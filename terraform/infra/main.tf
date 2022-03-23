@@ -9,7 +9,7 @@ locals {
 module "vpc" {
    source  = "terraform-aws-modules/vpc/aws"
    version = "3.2.0"
-    name = var.vpc_name
+    name = "jumia-vpc"
     cidr = "10.10.0.0/16"
     enable_dns_support = true
     enable_dns_hostnames = true

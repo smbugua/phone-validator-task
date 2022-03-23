@@ -1,12 +1,23 @@
-resource "aws_rds_cluster" "jumiadb" {
-  cluster_identifier     = "jumiadb"
-  db_cluster_instance_class = "db.t3.micro"
+resource "aws_db_instance" "jumiadb" {
+  identifier             = "jumiadb"
+  instance_class         = "db.t3.micro"
   allocated_storage      = 10
   engine                 = "postgres"
   engine_version         = "13.3"
-  master_username               = "postgres"
-  master_password               = var.db_password
+  username               = "postgres"
+  password               = var.db_password
   db_subnet_group_name   = var.db_subnet_name
   vpc_security_group_ids = [aws_security_group.main_security_group.id]
+  parameter_group_name   = aws_db_parameter_group.jumiadb.name
+  publicly_accessible    = true
   skip_final_snapshot    = true
+}
+resource "aws_db_parameter_group" "jumiadb" {
+  name   = "jumiadb"
+  family = "postgres13"
+
+  parameter {
+    name  = "log_connections"
+    value = "1"
+  }
 }

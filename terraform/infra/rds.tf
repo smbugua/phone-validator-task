@@ -6,7 +6,7 @@ resource "aws_db_instance" "jumiadb" {
   engine_version         = "13.3"
   username               = "postgres"
   password               = var.db_password
-  db_subnet_group_name   = var.db_subnet_name
+  db_subnet_group_name   = aws_db_subnet_group.jumiadb_subnet.name
   vpc_security_group_ids = [aws_security_group.main_security_group.id]
   parameter_group_name   = aws_db_parameter_group.jumiadb.name
   publicly_accessible    = true
